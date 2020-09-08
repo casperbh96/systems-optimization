@@ -7,6 +7,7 @@ class DataLoader():
     def load_xml_by_name(self, case_name: str) -> dict:
         file_path = f'./test_cases/{case_name}.xml'
 
+        # Read XML file, parse to dict, return dict
         with open(file_path, 'r') as file:
             data = file.read()
             dictionary = xmltodict.parse(data)
