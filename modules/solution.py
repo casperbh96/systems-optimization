@@ -1,5 +1,6 @@
 from . import TaskSolution
 
+
 class Solution():
     def __init__(self, task: [TaskSolution]):
         self.task = task
