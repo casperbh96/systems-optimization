@@ -22,13 +22,11 @@ dm = DeadlineMonotic()
 
 temp = 10000
 temp_decrease = 0.003
-c = annealing.initial_candidate(task_df, mcp_core_df) # worst case executing time
-test = dm.is_solution(c)
-list_of_schedules = [] # ordered by average laxity
+c = annealing.initial_candidate(task_df, mcp_core_df)
+list_of_schedules = [] # ordered by laxity
 
 while temp > 1:
     c_next = annealing.generate_neighbor(c)
-    WCRT = None # https://academic.oup.com/comjnl/article/29/5/390/486162
 
     if annealing.calc_prob(c, c_next, temp) > random.uniform(0, 1):
         c = c_next
