@@ -28,14 +28,20 @@ class SimulatedAnnealing():
         cores = []
         taskAssignments = []
 
+        # Sort list of cores most efficient first from dataframe
         sortedCores = mcp_core.values.tolist()
         sortedCores.sort(key=lambda x: float(x[2]))
+
+        # Create core objects and append to core object list
         for dfCore in sortedCores:
             core = Core(dfCore[0], dfCore[1], dfCore[2], 0)
             cores.append(core)
 
+        # Sort list of tast heaviest tast first from dataframe
         sortedTasks = tasks.values.tolist()
         sortedTasks.sort(key=lambda x: int(x[3]) / int(x[2]), reverse=True)
+
+        # For each task assign to core with least load and create TaskSolution obj
         for task in sortedTasks:
             #find least loaded core
             core = min(cores, key=attrgetter('utilizationPct'))
@@ -43,8 +49,8 @@ class SimulatedAnnealing():
             taskObj = TaskSolution(task[0], core.MCPId, core.id, util)
             core.utilizationPct += util
             taskAssignments.append(taskObj)
-            #set new percentage
 
+        # Create solution object from assigned
         solution = Solution(taskAssignments)
 
         return solution
