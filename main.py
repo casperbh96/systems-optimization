@@ -26,13 +26,13 @@ c = annealing.initial_candidate(task_df, mcp_core_df) # worst case executing tim
 list_of_schedules = [] # ordered by average laxity
 
 while temp > 1:
-    c_next = annealing.generate_neighbor()
+    c_next = annealing.generate_neighbor(c)
     WCRT = None # https://academic.oup.com/comjnl/article/29/5/390/486162
 
     if annealing.calc_prob(c, c_next, temp) > random.uniform(0, 1):
         c = c_next
 
-        if dm.is_solution():
+        if dm.is_solution(c):
             if len(list_of_schedules) == 0: 
                 list_of_schedules.append(c)
 

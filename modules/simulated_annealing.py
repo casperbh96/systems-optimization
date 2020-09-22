@@ -48,7 +48,7 @@ class SimulatedAnnealing():
             #find least loaded core
             core = min(cores, key=attrgetter('utilizationPct'))
             util = (float(task[3])/float(task[2]))*float(core.WCETFactor)
-            taskObj = TaskSolution(task[0], core.MCPId, core.id, util)
+            taskObj = TaskSolution(task[0], core, util, task[1], task[3])
             core.utilizationPct += util
             taskAssignments.append(taskObj)
 
@@ -58,7 +58,6 @@ class SimulatedAnnealing():
         return solution
 
     def generate_neighbor(self, solution):
-
         pass
 
     def calc_prob(self, c, c_next, temp):

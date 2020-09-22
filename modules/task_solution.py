@@ -1,8 +1,9 @@
 
 class TaskSolution():
-    def __init__(self, id: int, mcp: int, core: int, util: float):
+    def __init__(self, id: int, core_obj, util: float, deadline: int, wcet: int):
         self.id = id
-        self.mcp = mcp
-        self.core = core
+        self.core_obj = core_obj
         self.utilizationPct = util
+        self.deadline = deadline
+        self.wcet = wcet
         self.wcrt = None
