@@ -1,8 +1,11 @@
+import copy
+import itertools
 import operator
 
 from . import Solution, Core, TaskSolution
 import pandas as pd
 from operator import attrgetter
+from random import randrange
 import numpy as np
 import random
 
@@ -59,7 +62,35 @@ class SimulatedAnnealing():
         return solution
 
     def generate_neighbor(self, solution):
-        pass
+        #Get random links in solution
+        link1 = randrange(0, len(solution.tasks) - 1)
+        link2 = randrange(0, len(solution.tasks) - 1)
+        link3 = randrange(0, len(solution.tasks) - 1)
+        link4 = randrange(0, len(solution.tasks) - 1)
+        selectedLinks = [link1, link2, link3, link4]
+        selectedCores = [solution.tasks[link1].core, solution.tasks[link2].core, solution.tasks[link3].core, solution.tasks[link4].core]
+
+
+        # Get all combinations of cores and tasks
+        unique_combinations = []
+        permut = itertools.permutations(selectedLinks, len(selectedCores))
+        for comb in permut:
+            zipped = zip(comb, selectedCores)
+            unique_combinations.append(list(zipped))
+
+        newSolution = None
+        # Assign new cores for all combinations and get best solution
+        for combination in unique_combinations:
+            possibleSolution = copy.deepcopy(solution)
+            #assign new cores foreach index-core combination
+            for ic in combination:
+                possibleSolution.tasks[ic[0]].core = ic[1]
+
+            #If better sol
+            # TODO insert solution checker here
+            newSolution = copy.deepcopy(possibleSolution)
+
+        return newSolution
 
     def calc_prob(self, c, c_next, temp):
         change = abs(c-c_next)
