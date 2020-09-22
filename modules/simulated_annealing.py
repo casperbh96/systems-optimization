@@ -55,7 +55,8 @@ class SimulatedAnnealing():
 
         return solution
 
-    def generate_neighbor(self):
+    def generate_neighbor(self, solution):
+
         pass
 
     def calc_prob(self):
