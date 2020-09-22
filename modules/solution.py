@@ -11,15 +11,14 @@ class Solution():
     def calc_wcrt(self):
         for core in self.cores:
             for i, t in enumerate(core.tasks):
-                interference_sum = 0
+
                 interference = 0
 
+                response_time = interference + (t.wcet * core.WCETFactor)
                 for x in core.tasks[:i]:
-                    response_time = interference + (t.wcet*core.WCETFactor)
-                    interference = (response_time/x.period) * (x.wcet*core.WCETFactor)
-                    interference_sum += interference
+                    interference += (response_time/x.period) * (x.wcet*core.WCETFactor)
 
-                t.wcrt = interference_sum + t.wcet
+                t.wcrt = interference + t.wcet
 
     def calc_laxity(self):
         n = 0
