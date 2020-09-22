@@ -29,7 +29,7 @@ while temp > 1:
     c_next = annealing.generate_neighbor()
     WCRT = None # https://academic.oup.com/comjnl/article/29/5/390/486162
 
-    if annealing.calc_prob() > random.uniform(0, 1):
+    if annealing.calc_prob(c, c_next, temp) > random.uniform(0, 1):
         c = c_next
 
         if dm.is_solution():

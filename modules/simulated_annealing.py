@@ -3,6 +3,8 @@ import operator
 from . import Solution, Core, TaskSolution
 import pandas as pd
 from operator import attrgetter
+import numpy as np
+import random
 
 
 
@@ -59,5 +61,6 @@ class SimulatedAnnealing():
 
         pass
 
-    def calc_prob(self):
-        pass
+    def calc_prob(self, c, c_next, temp):
+        change = abs(c-c_next)
+        return np.exp(change/temp)
