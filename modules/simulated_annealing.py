@@ -68,7 +68,7 @@ class SimulatedAnnealing():
         link3 = randrange(0, len(solution.tasks) - 1)
         link4 = randrange(0, len(solution.tasks) - 1)
         selectedLinks = [link1, link2, link3, link4]
-        selectedCores = [solution.tasks[link1].core, solution.tasks[link2].core, solution.tasks[link3].core, solution.tasks[link4].core]
+        selectedCores = [solution.tasks[link1].core_obj.id, solution.tasks[link2].core_obj.id, solution.tasks[link3].core_obj.id, solution.tasks[link4].core_obj.id]
 
 
         # Get all combinations of cores and tasks
@@ -86,12 +86,10 @@ class SimulatedAnnealing():
             for ic in combination:
                 possibleSolution.tasks[ic[0]].core = ic[1]
 
-            #If better sol
-            # TODO insert solution checker here
             newSolution = copy.deepcopy(possibleSolution)
 
         return newSolution
 
     def calc_prob(self, c, c_next, temp):
-        change = abs(c-c_next)
+        change = abs(c.calc_laxity()-c_next.calc_laxity())
         return np.exp(change/temp)

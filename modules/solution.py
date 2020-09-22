@@ -6,6 +6,7 @@ class Solution():
         self.tasks = tasks
         self.cores = cores
         self.laxity = None
+        self.calc_wcrt()
 
     def calc_wcrt(self):
         for core in self.cores:
@@ -30,3 +31,5 @@ class Solution():
                 laxity_score += t.deadline-t.wcrt
         
         self.laxity = int(laxity_score / n)
+        
+        return self.laxity

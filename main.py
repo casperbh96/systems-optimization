@@ -15,8 +15,6 @@ mcp_core_df = loader.get_mcp_to_dataframe(
     dictionary['Platform']['MCP']
 )
 
-print(mcp_core_df.head(5))
-
 annealing = SimulatedAnnealing()
 dm = DeadlineMonotic()
 
@@ -27,6 +25,7 @@ list_of_schedules = [] # ordered by laxity
 
 while temp > 1:
     c_next = annealing.generate_neighbor(c)
+    c_next.calc_wcrt()
 
     if annealing.calc_prob(c, c_next, temp) > random.uniform(0, 1):
         c = c_next
@@ -36,8 +35,11 @@ while temp > 1:
                 list_of_schedules.append(c)
 
             for i, schedule in enumerate(list_of_schedules):
-                if schedule > c:
+                if schedule.laxity > c.laxity:
                     list_of_schedules.insert(i, c)
                     break
 
     temp = temp * (1 - temp_decrease)
+    print(temp)
+
+print(list_of_schedules[0].laxity)
