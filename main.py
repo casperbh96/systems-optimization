@@ -23,6 +23,7 @@ dm = DeadlineMonotic()
 temp = 10000
 temp_decrease = 0.003
 c = annealing.initial_candidate(task_df, mcp_core_df) # worst case executing time
+test = dm.is_solution(c)
 list_of_schedules = [] # ordered by average laxity
 
 while temp > 1:

@@ -36,7 +36,7 @@ class SimulatedAnnealing():
 
         # Create core objects and append to core object list
         for dfCore in sortedCores:
-            core = Core(dfCore[0], dfCore[1], dfCore[2], 0)
+            core = Core(dfCore[0], dfCore[1], float(dfCore[2]), 0, [])
             cores.append(core)
 
         # Sort list of tast heaviest tast first from dataframe
@@ -48,12 +48,13 @@ class SimulatedAnnealing():
             #find least loaded core
             core = min(cores, key=attrgetter('utilizationPct'))
             util = (float(task[3])/float(task[2]))*float(core.WCETFactor)
-            taskObj = TaskSolution(task[0], core, util, task[1], task[3])
+            taskObj = TaskSolution(task[0], core, util, int(task[1]), int(task[3]), int(task[2]))
             core.utilizationPct += util
             taskAssignments.append(taskObj)
+            core.tasks.append(taskObj)
 
         # Create solution object from assigned
-        solution = Solution(taskAssignments)
+        solution = Solution(taskAssignments,cores)
 
         return solution
 
