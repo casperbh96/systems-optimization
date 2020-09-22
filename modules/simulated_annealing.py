@@ -6,6 +6,8 @@ from . import Solution, Core, TaskSolution
 import pandas as pd
 from operator import attrgetter
 from random import randrange
+import numpy as np
+import random
 
 
 
@@ -49,7 +51,7 @@ class SimulatedAnnealing():
             #find least loaded core
             core = min(cores, key=attrgetter('utilizationPct'))
             util = (float(task[3])/float(task[2]))*float(core.WCETFactor)
-            taskObj = TaskSolution(task[0], core.MCPId, core.id, util)
+            taskObj = TaskSolution(task[0], core, util, task[1], task[3])
             core.utilizationPct += util
             taskAssignments.append(taskObj)
 
@@ -89,5 +91,6 @@ class SimulatedAnnealing():
 
         return newSolution
 
-    def calc_prob(self):
-        pass
+    def calc_prob(self, c, c_next, temp):
+        change = abs(c-c_next)
+        return np.exp(change/temp)
