@@ -10,7 +10,6 @@ import numpy as np
 import random
 
 
-
 class SimulatedAnnealing():
     def __init__(self):
         pass
@@ -62,33 +61,35 @@ class SimulatedAnnealing():
         return solution
 
     def generate_neighbor(self, solution):
-        #Get random links in solution
-        link1 = randrange(0, len(solution.tasks) - 1)
-        link2 = randrange(0, len(solution.tasks) - 1)
-        link3 = randrange(0, len(solution.tasks) - 1)
-        link4 = randrange(0, len(solution.tasks) - 1)
-        selectedLinks = [link1, link2, link3, link4]
-        selectedCores = [solution.tasks[link1].core_obj.id, solution.tasks[link2].core_obj.id, solution.tasks[link3].core_obj.id, solution.tasks[link4].core_obj.id]
+        selectedCores = []
+        selectedTasks = []
+        
+        for i in range(4):
+            core = solution.cores[random.randint( 0,len(solution.cores)-1 )]
+            task = core.tasks[random.randint( 0,len(core.tasks)-1 )]
 
+            selectedCores.append(core)
+            selectedTasks.append(task)
 
-        # Get all combinations of cores and tasks
-        unique_combinations = []
-        permut = itertools.permutations(selectedLinks, len(selectedCores))
-        for comb in permut:
-            zipped = zip(comb, selectedCores)
-            unique_combinations.append(list(zipped))
+        unique_combinations = itertools.product(selectedTasks, selectedCores)
 
-        newSolution = None
-        # Assign new cores for all combinations and get best solution
         for combination in unique_combinations:
+            #combination[0] = selectedTask
+            #combination[1] = selectedCore
             possibleSolution = copy.deepcopy(solution)
-            #assign new cores foreach index-core combination
-            for ic in combination:
-                possibleSolution.tasks[ic[0]].core_obj.id = ic[1]
 
-            newSolution = copy.deepcopy(possibleSolution)
+            core = next(filter(lambda x: x.id == combination[0].core_obj.id, possibleSolution.cores))
+            remove_task = None
+            for task in core.tasks:
+                if task.id == combination[0].id:
+                    remove_task = task
+                    
+            core.tasks.remove(remove_task)
+            #core.tasks.remove(combination[0])
 
-        return newSolution
+            #possibleSolution.cores[combination[1]].tasks.append(combination[0])
+
+            
 
     def calc_prob(self, c, c_next, temp):
         change = c.calc_laxity()-c_next.calc_laxity()
