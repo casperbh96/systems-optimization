@@ -21,7 +21,7 @@ dm = DeadlineMonotic()
 temp = 10000
 temp_decrease = 0.003
 c = annealing.initial_candidate(task_df, mcp_core_df)
-list_of_schedules = []
+list_of_schedules = [c]
 
 while temp > 1:
     c_next = annealing.generate_neighbor(c)
@@ -38,6 +38,3 @@ while temp > 1:
 
 schedules = sorted(list_of_schedules, key=lambda x: x.laxity, reverse=True)
 print(schedules[0].laxity)
-print(schedules[-1].laxity)
-print(len(list_of_schedules))
-print([x.laxity for x in schedules])
