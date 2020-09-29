@@ -84,7 +84,7 @@ class SimulatedAnnealing():
             possibleSolution = copy.deepcopy(solution)
             #assign new cores foreach index-core combination
             for ic in combination:
-                possibleSolution.tasks[ic[0]].core = ic[1]
+                possibleSolution.tasks[ic[0]].core_obj.id = ic[1]
 
             newSolution = copy.deepcopy(possibleSolution)
 
