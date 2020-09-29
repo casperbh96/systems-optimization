@@ -56,7 +56,7 @@ class SimulatedAnnealing():
             core.tasks.append(taskObj)
 
         # Create solution object from assigned
-        solution = Solution(taskAssignments,cores)
+        solution = Solution(cores)
 
         return solution
 
