@@ -20,14 +20,18 @@ class Solution():
                 t.wcrt = interference + t.wcet
 
     def calc_laxity(self):
-        n = 0
-        laxity_score = 0
+        res = 0
 
         for core in self.cores:
+            n = 0
+            laxity_score = 0
             for t in core.tasks:
                 n += 1
                 laxity_score += t.deadline-t.wcrt
-        
-        self.laxity = int(laxity_score / n)
-        
+
+            if n != 0:
+                res += int(laxity_score / n)
+
+        self.laxity = res
+
         return self.laxity
