@@ -87,6 +87,7 @@ class SimulatedAnnealing():
                 if task.id == combination[0].id:
                     remove_task = task
 
+            print(remove_task)
             core.tasks.remove(remove_task)
             
             core = next(filter(lambda x: x.id == combination[1].id and x.MCPId == combination[1].MCPId, possibleSolution.cores))
