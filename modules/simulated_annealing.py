@@ -91,5 +91,5 @@ class SimulatedAnnealing():
         return newSolution
 
     def calc_prob(self, c, c_next, temp):
-        change = abs(c.calc_laxity()-c_next.calc_laxity())
+        change = c.calc_laxity()-c_next.calc_laxity()
         return np.exp(change/temp)
