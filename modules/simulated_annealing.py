@@ -66,7 +66,7 @@ class SimulatedAnnealing():
         
         while len(selectedCores) != 4 and len(selectedTasks) != 4:
             core = solution.cores[random.randint( 0,len(solution.cores)-1 )]
-            task = solution.tasks[random.randint( 0,len(solution.tasks)-1 )]
+            task = core.tasks[random.randint( 0,len(core.tasks)-1 )]
 
             if task not in selectedTasks:
                 selectedTasks.append(task)
