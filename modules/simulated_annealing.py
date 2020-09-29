@@ -50,7 +50,7 @@ class SimulatedAnnealing():
             #find least loaded core
             core = min(cores, key=attrgetter('utilizationPct'))
             util = (float(task[3])/float(task[2]))*float(core.WCETFactor)
-            taskObj = TaskSolution(task[0], core, util, int(task[1]), int(task[3]), int(task[2]))
+            taskObj = TaskSolution(task[0], util, int(task[1]), int(task[3]), int(task[2]))
             core.utilizationPct += util
             taskAssignments.append(taskObj)
             core.tasks.append(taskObj)
@@ -64,12 +64,13 @@ class SimulatedAnnealing():
         selectedCores = []
         selectedTasks = []
         
-        while len(selectedCores) != 4:
+        while len(selectedCores) != 4 and len(selectedTasks) != 4:
             core = solution.cores[random.randint( 0,len(solution.cores)-1 )]
-            task = core.tasks[random.randint( 0,len(core.tasks)-1 )]
+            task = solution.tasks[random.randint( 0,len(solution.tasks)-1 )]
 
             if task not in selectedTasks:
                 selectedTasks.append(task)
+            if core not in selectedCores:
                 selectedCores.append(core)
 
         unique_combinations = itertools.product(selectedTasks, selectedCores)
@@ -80,7 +81,11 @@ class SimulatedAnnealing():
             #combination[1] = selectedCore
             possibleSolution = copy.deepcopy(solution)
 
-            core = next(filter(lambda x: x.id == combination[0].core_obj.id and x.MCPId == combination[0].core_obj.MCPId, possibleSolution.cores))
+            core = None
+            for c in possibleSolution.cores:
+                for t in c.tasks:
+                    if t.id == combination[0].id:
+                        core = c
             
             remove_task = None
             for task in core.tasks:
