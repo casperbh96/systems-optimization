@@ -64,17 +64,17 @@ class SimulatedAnnealing():
         selectedCores = []
         selectedTasks = []
         
-        for i in range(4):
+        while len(selectedCores) != 4:
             core = solution.cores[random.randint( 0,len(solution.cores)-1 )]
             task = core.tasks[random.randint( 0,len(core.tasks)-1 )]
 
-            selectedCores.append(core)
-            selectedTasks.append(task)
+            if task not in selectedTasks:
+                selectedTasks.append(task)
+                selectedCores.append(core)
 
         unique_combinations = itertools.product(selectedTasks, selectedCores)
 
         newSolution = None
-
         for combination in unique_combinations:
             #combination[0] = selectedTask
             #combination[1] = selectedCore
@@ -87,7 +87,6 @@ class SimulatedAnnealing():
                 if task.id == combination[0].id:
                     remove_task = task
 
-            print(remove_task)
             core.tasks.remove(remove_task)
             
             core = next(filter(lambda x: x.id == combination[1].id and x.MCPId == combination[1].MCPId, possibleSolution.cores))
