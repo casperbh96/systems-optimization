@@ -34,7 +34,7 @@ class SimulatedAnnealing():
 
         # Sort list of cores most efficient first from dataframe
         sortedCores = mcp_core.values.tolist()
-        sortedCores.sort(key=lambda x: float(x[2]))
+        #sortedCores.sort(key=lambda x: float(x[2]))
 
         # Create core objects and append to core object list
         for dfCore in sortedCores:
@@ -43,7 +43,7 @@ class SimulatedAnnealing():
 
         # Sort list of tast heaviest tast first from dataframe
         sortedTasks = tasks.values.tolist()
-        sortedTasks.sort(key=lambda x: int(x[3]) / int(x[2]), reverse=True)
+        #sortedTasks.sort(key=lambda x: int(x[3]) / int(x[2]), reverse=True)
 
         # For each task assign to core with least load and create TaskSolution obj
         for task in sortedTasks:
@@ -73,23 +73,32 @@ class SimulatedAnnealing():
 
         unique_combinations = itertools.product(selectedTasks, selectedCores)
 
+        newSolution = None
+
         for combination in unique_combinations:
             #combination[0] = selectedTask
             #combination[1] = selectedCore
             possibleSolution = copy.deepcopy(solution)
 
-            core = next(filter(lambda x: x.id == combination[0].core_obj.id, possibleSolution.cores))
+            core = next(filter(lambda x: x.id == combination[0].core_obj.id and x.MCPId == combination[0].core_obj.MCPId, possibleSolution.cores))
+            
             remove_task = None
             for task in core.tasks:
                 if task.id == combination[0].id:
                     remove_task = task
-                    
+
             core.tasks.remove(remove_task)
-            #core.tasks.remove(combination[0])
-
-            #possibleSolution.cores[combination[1]].tasks.append(combination[0])
-
             
+            core = next(filter(lambda x: x.id == combination[1].id and x.MCPId == combination[1].MCPId, possibleSolution.cores))
+            core.tasks.append(combination[0])
+
+            possibleSolution.calc_wcrt()
+            laxity = possibleSolution.calc_laxity()
+
+            if newSolution == None or newSolution.laxity < laxity:
+                newSolution = possibleSolution
+
+        return newSolution
 
     def calc_prob(self, c, c_next, temp):
         change = c.calc_laxity()-c_next.calc_laxity()

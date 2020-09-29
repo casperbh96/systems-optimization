@@ -21,6 +21,8 @@ dm = DeadlineMonotic()
 temp = 10000
 temp_decrease = 0.003
 c = annealing.initial_candidate(task_df, mcp_core_df)
+c.calc_wcrt()
+print(c.calc_laxity())
 list_of_schedules = []
 
 while temp > 1:
