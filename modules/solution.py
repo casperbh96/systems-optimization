@@ -2,8 +2,7 @@ from . import TaskSolution, Core
 
 
 class Solution():
-    def __init__(self, tasks: [TaskSolution], cores: [Core]):
-        self.tasks = tasks
+    def __init__(self, cores: [Core]):
         self.cores = cores
         self.laxity = None
         self.calc_wcrt()
