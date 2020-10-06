@@ -18,7 +18,7 @@ class Solution():
                 for x in core.tasks[:i]:
                     interference += math.ceil(response_time/x.period) * (x.wcet*core.WCETFactor)
 
-                t.wcrt = math.ceil(interference + t.wcet)
+                t.wcrt = interference + t.wcet
 
     def calc_laxity(self):
         res = 0
