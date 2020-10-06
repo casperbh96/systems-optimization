@@ -1,4 +1,5 @@
 from . import TaskSolution, Core
+import math
 
 
 class Solution():
@@ -15,9 +16,9 @@ class Solution():
 
                 response_time = interference + (t.wcet * core.WCETFactor)
                 for x in core.tasks[:i]:
-                    interference += (response_time/x.period) * (x.wcet*core.WCETFactor)
+                    interference += math.ceil(response_time/x.period) * (x.wcet*core.WCETFactor)
 
-                t.wcrt = interference + t.wcet
+                t.wcrt = math.ceil(interference + t.wcet)
 
     def calc_laxity(self):
         res = 0

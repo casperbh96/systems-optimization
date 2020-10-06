@@ -1,4 +1,4 @@
-from modules import DataLoader, DeadlineMonotic, SimulatedAnnealing
+from modules import DataLoader, DeadlineMonotic, SimulatedAnnealing, XMLFormatter
 import random
 
 
@@ -38,3 +38,6 @@ while temp > 1:
 
 schedules = sorted(list_of_schedules, key=lambda x: x.laxity, reverse=True)
 print(schedules[0].laxity)
+
+xml = XMLFormatter()
+xml.write_schedule_xml(schedules[0], 'solution.xml')

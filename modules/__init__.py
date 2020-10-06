@@ -4,3 +4,4 @@ from modules.task_solution import TaskSolution
 from modules.core import Core
 from modules.solution import Solution
 from modules.simulated_annealing import SimulatedAnnealing
+from modules.xml_formatter import XMLFormatter
