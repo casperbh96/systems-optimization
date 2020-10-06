@@ -37,7 +37,9 @@ while temp > 1:
     print(temp)
 
 schedules = sorted(list_of_schedules, key=lambda x: x.laxity, reverse=True)
-print(schedules[0].laxity)
+best_solution = schedules[0]
+best_solution.cores = sorted(best_solution.cores, key=lambda x: x.MCPId)
+print(best_solution.laxity)
 
 xml = XMLFormatter()
-xml.write_schedule_xml(schedules[0], 'solution.xml')
+xml.write_schedule_xml(best_solution, 'solution.xml')
